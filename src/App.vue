@@ -1,61 +1,80 @@
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-header class="frens-header">Frens rarity checker</el-header>
-      <el-main>
-        <el-row class="row-bg" justify="center">
-          <el-col :span="6">
-            <el-form
-              @submit.prevent
-              :model="checkForm"
-              ref="formRef"
-              label-width="120px"
+  <el-container class="app-container">
+    <el-header class="frens-header">Frens rarity checker</el-header>
+    <el-main>
+      <el-row class="row-bg" justify="center">
+        <el-col :sm="24" :md="12" :lg="8" :xl="6">
+          <el-form
+            @submit.prevent
+            :model="checkForm"
+            ref="formRef"
+            label-width="120px"
+          >
+            <el-form-item
+              label="Frens id"
+              prop="frensId"
+              :rules="[
+                { required: true, message: 'frens id is required' },
+                { type: 'number', message: 'frens id must be a number' },
+              ]"
             >
-              <el-form-item
-                label="Frens id"
-                prop="frensId"
-                :rules="[
-                  { required: true, message: 'frens id is required' },
-                  { type: 'number', message: 'frens id must be a number' },
-                ]"
+              <el-input
+                v-model.number="checkForm.frensId"
+                type="text"
+                autocomplete="off"
+                v-on:keyup.enter="submitForm(formRef)"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm(formRef)"
+                >Submit</el-button
               >
-                <el-input
-                  v-model.number="checkForm.frensId"
-                  type="text"
-                  autocomplete="off"
-                  v-on:keyup.enter="submitForm(formRef)"
-                />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submitForm(formRef)"
-                  >Submit</el-button
-                >
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-        <el-row v-if="fren" class="row-bg" justify="center">
-          <el-col :span="6">
-            <el-descriptions
-                title="Estimated prices based on different algorithms"
-                direction="horizontal"
-                :column="1"
-                size="large"
-                border
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+      <el-row v-if="fren" class="row-bg" justify="center">
+        <el-col :sm="24" :md="12" :lg="8" :xl="6">
+          <el-descriptions
+            title="Estimated prices based on different algorithms"
+            direction="horizontal"
+            :column="1"
+            size="large"
+            border
+          >
+            <el-descriptions-item label="Fren id">{{
+              fren.id
+            }}</el-descriptions-item>
+            <el-descriptions-item label="Rarity score">{{
+              Math.round(fren.rarity_score)
+            }}</el-descriptions-item>
+            <el-descriptions-item label="KRV"
+              >{{ Math.round(fren.krv) }} Stars</el-descriptions-item
             >
-              <el-descriptions-item label="Fren id">{{ fren.id }}</el-descriptions-item>
-              <el-descriptions-item label="Rarity score">{{ Math.round(fren.rarity_score) }}</el-descriptions-item>
-              <el-descriptions-item label="KRV">{{ Math.round(fren.krv) }} Stars</el-descriptions-item>
-              <el-descriptions-item label="KARV">{{ Math.round(fren.karv_present) }} Stars (today) - {{ Math.round(fren.karv_future) }} Stars (2 years from now)</el-descriptions-item>
-              <el-descriptions-item label="KHRV">{{ Math.round(fren.khrv) }}</el-descriptions-item>
-              <el-descriptions-item label="KHARV">{{ Math.round(fren.kharv_present) }} Stars (today) - {{ Math.round(fren.kharv_future) }} Stars (2 years from now)</el-descriptions-item>
-            </el-descriptions>
-            <el-image class="fren-image" :src="fren.img" />
-          </el-col>
-        </el-row>
-      </el-main>
-    </el-container>
-  </div>
+            <el-descriptions-item label="KARV"
+              >{{ Math.round(fren.karv_present) }} Stars (today) -
+              {{ Math.round(fren.karv_future) }} Stars (2 years from
+              now)</el-descriptions-item
+            >
+            <el-descriptions-item label="KHRV">{{
+              Math.round(fren.khrv)
+            }}</el-descriptions-item>
+            <el-descriptions-item label="KHARV"
+              >{{ Math.round(fren.kharv_present) }} Stars (today) -
+              {{ Math.round(fren.kharv_future) }} Stars (2 years from
+              now)</el-descriptions-item
+            >
+          </el-descriptions>
+          <el-image class="fren-image" :src="fren.img" />
+        </el-col>
+      </el-row>
+    </el-main>
+    <el-footer class="frens-footer">
+      ❤️ Built with love ❤️<br />
+      Starsbook donation address:
+      juno1vrgrym3nnazzvkgwzxp7tvq9es0awv00zsz9fg7e9lp837kul62q6qds2s
+    </el-footer>
+  </el-container>
 </template>
 
 <script setup lang="ts">
@@ -105,7 +124,7 @@ function check(frensId: string) {
   }
 
   frenFound.id = frensId;
-  frenFound.img = `https://stargaze.mypinata.cloud/ipfs/bafybeiaip3vwwhhgerw6gcs66clj4onubkdadquqzzpzrftvuyhgnzojse/images/${frensId}.jpg?img-width=600&img-fit=scale-down&img-anim=false&img-format=auto`
+  frenFound.img = `https://stargaze.mypinata.cloud/ipfs/bafybeiaip3vwwhhgerw6gcs66clj4onubkdadquqzzpzrftvuyhgnzojse/images/${frensId}.jpg?img-width=600&img-fit=scale-down&img-anim=false&img-format=auto`;
 
   fren.value = frenFound;
 }
@@ -114,9 +133,19 @@ function check(frensId: string) {
 <style>
 @import "assets/base.css";
 
+.app-container {
+  height: 100%;
+}
+
 .frens-header {
   text-align: center;
   font-size: 32px;
+}
+
+.frens-footer {
+  margin-top: auto;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .fren-image {
@@ -126,5 +155,4 @@ function check(frensId: string) {
   margin-right: auto;
   width: 50%;
 }
-
 </style>
