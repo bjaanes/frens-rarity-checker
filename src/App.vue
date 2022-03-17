@@ -37,7 +37,19 @@
           <el-col :span="6">
             Fren id: {{ fren.id }}
             <br />
-            Rarity score: {{ fren.rarityScore }}
+            Rarity score: {{ fren.rarity_score }}
+            <br />
+            krv: {{ fren.krv }}
+            <br />
+            karv: {{ fren.karv }}
+            <br />
+            lkarv: {{ fren.lkarv }}
+            <br />
+            khrv: {{ fren.khrv }}
+            <br />
+            kharv: {{ fren.kharv }}
+            <br />
+            lkharv: {{ fren.lkharv }}
             <br />
             <img :src="fren.img" />
           </el-col>
@@ -50,7 +62,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import type { FormInstance } from "element-plus";
-import nftRarity from "@/assets/nft_rarity.json"; // TODO: transform into map instead of array for easier access
+import nftRarity from "@/assets/values.json"; // TODO: transform into map instead of array for easier access
 
 const formRef = ref<FormInstance>();
 
@@ -72,19 +84,31 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 
 function check(frensId: string) {
-  const rarity = (nftRarity as Array<{id: string, rarity_score: number}>).find(x => x.id === frensId + '');
+  const frenFound = (
+    nftRarity as unknown as {
+      [key: string]: {
+        id: string | undefined;
+        img: string | undefined;
+        rarity_score: number;
+        krv: number;
+        karv: number;
+        lkarv: number;
+        khrv: number;
+        kharv: number;
+        lkharv: number;
+      };
+    }
+  )[frensId];
 
-
-  if (typeof rarity === "undefined") {
+  if (typeof frenFound === "undefined") {
     alert("Fren not found");
     return;
   }
 
-  fren.value = {
-    id: frensId,
-    rarityScore: rarity.rarity_score,
-    img: `https://stargaze.mypinata.cloud/ipfs/bafybeiaip3vwwhhgerw6gcs66clj4onubkdadquqzzpzrftvuyhgnzojse/images/${frensId}.jpg?img-width=600&img-fit=scale-down&img-anim=false&img-format=auto`,
-  };
+  frenFound.id = frensId;
+  frenFound.img = `https://stargaze.mypinata.cloud/ipfs/bafybeiaip3vwwhhgerw6gcs66clj4onubkdadquqzzpzrftvuyhgnzojse/images/${frensId}.jpg?img-width=600&img-fit=scale-down&img-anim=false&img-format=auto`
+
+  fren.value = frenFound;
   /*
 RarityScore/LowestRarityScore(MintPrice) = KRV
 

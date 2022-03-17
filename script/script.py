@@ -2,30 +2,19 @@ import json
 import pandas as pd
 
 # Does some shit to load json
-filePath = '/Users/cameronfink/Downloads/nft_rarity.json'
+filePath = 'nft_rarity.json'
 
 nftFile = open(filePath)
 
 nftData = json.load(nftFile)
 
 # Sets up dictionary
-nftDictionary = {
-    'ID': [],
-    'Rarity': [],
-    'KRV': [],
-    'KARV': [],
-    'LKARV': [],
-    'KHRV': [],
-    'KHARV': [],
-    'LKHARV': []
-    }
+nftDictionary = {}
 
 # Iterates through, adds to dataframe
 for x in nftData:
     # Appends some shit
-    nftDictionary['ID'].append(x['id'])
-    nftDictionary['Rarity'].append(x['rarity_score'])
-    
+
     rarityFloat = float(x['rarity_score'])
     
     # Does math
@@ -37,13 +26,16 @@ for x in nftData:
     LKHARV = KHARV * 6.11
     
     # Appending more shit
-    nftDictionary['KRV'].append(KRV)
-    nftDictionary['KARV'].append(KARV)
-    nftDictionary['LKARV'].append(LKARV)
-    nftDictionary['KHRV'].append(KHRV)
-    nftDictionary['KHARV'].append(KHARV)
-    nftDictionary['LKHARV'].append(LKHARV)
-    
+    nftDictionary[x['id']] = {
+        'rarity_score': x['rarity_score'],
+        'krv': KRV,
+        'karv': KARV,
+        'lkarv': LKARV,
+        'khrv': KHRV,
+        'kharv': KHARV,
+        'lkharv': LKHARV
+    }
+
 df = pd.DataFrame(data = nftDictionary)
 
 df.to_json('values.json')
