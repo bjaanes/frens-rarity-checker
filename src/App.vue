@@ -40,7 +40,7 @@
                 title="Estimated prices based on different algorithms"
                 direction="horizontal"
                 :column="1"
-                :size="large"
+                size="large"
                 border
             >
               <el-descriptions-item label="Fren id">{{ fren.id }}</el-descriptions-item>
