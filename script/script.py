@@ -15,25 +15,26 @@ nftDictionary = {}
 for x in nftData:
     # Appends some shit
 
-    rarityFloat = float(x['rarity_score'])
-    
+    rarityScore = float(x['rarity_score'])
+
     # Does math
-    KRV = (rarityFloat / 84.3) * 100
-    KARV = KRV * 4.679
-    LKARV = KARV * 6.11
-    KHRV = ((rarityFloat + 5000) / 5084.3) * 100
-    KHARV = KHRV * 4.679
-    LKHARV = KHARV * 6.11
-    
+    KRV = (rarityScore / 84.3) * 140
+    KARV_PRESENT = KRV * 4.679
+    KARV_FUTURE = KARV_PRESENT * 6.11
+
+    KHRV = ((rarityScore + 5000) / 5084.3) * 140
+    KHARV_PRESENT = KHRV * 4.679
+    KHARV_FUTURE = KHARV_PRESENT * 6.11
+
     # Appending more shit
     nftDictionary[x['id']] = {
         'rarity_score': x['rarity_score'],
         'krv': KRV,
-        'karv': KARV,
-        'lkarv': LKARV,
+        'karv_present': KARV_PRESENT,
+        'karv_future': KARV_FUTURE,
         'khrv': KHRV,
-        'kharv': KHARV,
-        'lkharv': LKHARV
+        'kharv_present': KHARV_PRESENT,
+        'kharv_future': KHARV_FUTURE
     }
 
 df = pd.DataFrame(data = nftDictionary)

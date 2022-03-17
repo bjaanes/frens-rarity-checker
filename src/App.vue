@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header class="frens-header">Header</el-header>
+      <el-header class="frens-header">Frens rarity checker</el-header>
       <el-main>
         <el-row class="row-bg" justify="center">
           <el-col :span="6">
@@ -23,6 +23,7 @@
                   v-model.number="checkForm.frensId"
                   type="text"
                   autocomplete="off"
+                  v-on:keyup.enter="submitForm(formRef)"
                 />
               </el-form-item>
               <el-form-item>
@@ -35,23 +36,21 @@
         </el-row>
         <el-row v-if="fren" class="row-bg" justify="center">
           <el-col :span="6">
-            Fren id: {{ fren.id }}
-            <br />
-            Rarity score: {{ fren.rarity_score }}
-            <br />
-            krv: {{ fren.krv }}
-            <br />
-            karv: {{ fren.karv }}
-            <br />
-            lkarv: {{ fren.lkarv }}
-            <br />
-            khrv: {{ fren.khrv }}
-            <br />
-            kharv: {{ fren.kharv }}
-            <br />
-            lkharv: {{ fren.lkharv }}
-            <br />
-            <img :src="fren.img" />
+            <el-descriptions
+                title="Estimated prices based on different algorithms"
+                direction="horizontal"
+                :column="1"
+                :size="large"
+                border
+            >
+              <el-descriptions-item label="Fren id">{{ fren.id }}</el-descriptions-item>
+              <el-descriptions-item label="Rarity score">{{ Math.round(fren.rarity_score) }}</el-descriptions-item>
+              <el-descriptions-item label="KRV">{{ Math.round(fren.krv) }} Stars</el-descriptions-item>
+              <el-descriptions-item label="KARV">{{ Math.round(fren.karv_present) }} Stars (today) - {{ Math.round(fren.karv_future) }} Stars (2 years from now)</el-descriptions-item>
+              <el-descriptions-item label="KHRV">{{ Math.round(fren.khrv) }}</el-descriptions-item>
+              <el-descriptions-item label="KHARV">{{ Math.round(fren.kharv_present) }} Stars (today) - {{ Math.round(fren.kharv_future) }} Stars (2 years from now)</el-descriptions-item>
+            </el-descriptions>
+            <el-image class="fren-image" :src="fren.img" />
           </el-col>
         </el-row>
       </el-main>
@@ -91,11 +90,11 @@ function check(frensId: string) {
         img: string | undefined;
         rarity_score: number;
         krv: number;
-        karv: number;
-        lkarv: number;
+        karv_present: number;
+        karv_future: number;
         khrv: number;
-        kharv: number;
-        lkharv: number;
+        kharv_present: number;
+        kharv_future: number;
       };
     }
   )[frensId];
@@ -109,27 +108,23 @@ function check(frensId: string) {
   frenFound.img = `https://stargaze.mypinata.cloud/ipfs/bafybeiaip3vwwhhgerw6gcs66clj4onubkdadquqzzpzrftvuyhgnzojse/images/${frensId}.jpg?img-width=600&img-fit=scale-down&img-anim=false&img-format=auto`
 
   fren.value = frenFound;
-  /*
-RarityScore/LowestRarityScore(MintPrice) = KRV
-
-KRV4.679= X (present)
-X6.11 = Y (future)
-
-KARV = X range Y
-
-RarityScore+5000/LowestRarityScore+5000(MintPrice)= KHRV
-
-KHRV4.679=X (present)
-X6.11=Y (future)
-
-KHARV= X range Y
-
-*/
 }
 </script>
 
 <style>
+@import "assets/base.css";
+
 .frens-header {
   text-align: center;
+  font-size: 32px;
 }
+
+.fren-image {
+  margin-top: 25px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 </style>
