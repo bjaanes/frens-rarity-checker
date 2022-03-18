@@ -48,6 +48,9 @@
             <el-descriptions-item label="Rarity score">
               {{ Math.round(fren.rarity_score) }}
             </el-descriptions-item>
+            <el-descriptions-item label="Rank">
+              {{ fren.rank.toFixed() }}
+            </el-descriptions-item>
             <el-descriptions-item label="KRV">
               <template v-slot:label>
                 <el-popover
@@ -164,6 +167,7 @@ function check(frensId: string) {
         id: string | undefined;
         img: string | undefined;
         rarity_score: number;
+        rank: number;
         krv: number;
         karv_present: number;
         karv_future: number;
