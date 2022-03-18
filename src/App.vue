@@ -98,7 +98,7 @@
                   This is a similar algorithm to KRV, however this is accounting for rarity scores given by hubble.tools, given they have a different scoring system. This dilutes the KRV rating significantly and more so is a companion for the KHARV algorithm.
                 </el-popover>
               </template>
-              {{ Math.round(fren.khrv) }}
+              {{ Math.round(fren.khrv) }} Stars
             </el-descriptions-item>
             <el-descriptions-item label="KHARV">
               <template v-slot:label>
@@ -111,7 +111,7 @@
                   <template #reference>
                     KHARV ℹ️
                   </template>
-                  The Kryoten Hubble Accelerated Valuation.<br>
+                  The Kryoten Hubble Accelerated Rarity Valuation.<br>
                   This algorithm has had all factors up to this point accounted for and could be the most accurate for fair PRE-Market valuations. Similar to KARV, is also a range speculating todays KHARV, and a future price based on a time span of 2 years.
                 </el-popover>
               </template>
@@ -210,5 +210,9 @@ function check(frensId: string) {
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+
+.el-popover {
+  word-break: break-word !important;
 }
 </style>
